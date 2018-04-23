@@ -11,6 +11,14 @@ using std::initializer_list;
 
 #include "Shape.h"
 
+class ComplexShape : public Shape{
+public:
+    string getPostscript() override final;
+    virtual ~ComplexShape(){};
+protected: 
+    vector<shared_ptr<Shape>> shapes;
+private:
+};
 
 class Rotation{
 private:
@@ -74,11 +82,7 @@ public:
     }
 };
 
-class Layered : public Shape{
-private:
-  
-    vector<shared_ptr<Shape>> shapes;
-
+class Layered : public ComplexShape{
 public:
     Layered(initializer_list<shared_ptr<Shape>> list) {
          // Populate vector
@@ -99,14 +103,9 @@ public:
             
         }
     }
-    
-    string getPostscript() override;
 };
 
-class VerticalShape : public Shape{
-private:
-    vector<shared_ptr<Shape>> shapes;
-
+class VerticalShape : public ComplexShape{
 public:
     VerticalShape(initializer_list<shared_ptr<Shape>> list) {
         // Populate vector
@@ -127,14 +126,9 @@ public:
             shape->setCursor( prevShape->getLocX() , (prevShape->getLocY() + ((prevShape->getHeight())/2) + (shape->getHeight()/2) ) );
         };
     }
-
-    string getPostscript() override;
 };
 
-class HorizontalShape : public Shape{
-private:
-    vector<shared_ptr<Shape>> shapes;
-
+class HorizontalShape : public ComplexShape{
 public:
     HorizontalShape(initializer_list<shared_ptr<Shape>> list) {
         // Populate vector
@@ -155,8 +149,6 @@ public:
             shape->setCursor( (prevShape->getLocX() + ((prevShape->getWidth())/2) + (shape->getWidth()/2) ), prevShape->getLocY() );
         };
     }
-
-    string getPostscript() override;
 };
 
 #endif
